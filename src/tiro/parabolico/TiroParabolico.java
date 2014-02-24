@@ -63,18 +63,18 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		
 		
 //		Se cargan las imágenes para la animación
-		Image link1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link1.png"));
-		Image link2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link2.png"));
-		Image link3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link3.png"));
-		Image link4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link4.png"));
-		Image link5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link5.png"));
-		Image link6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link6.png"));
-		Image link7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link7.png"));
-		Image link8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("link8.png"));
-		Image thwomp1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("thwomp1.png"));
-		Image thwomp2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("thwomp2.png"));
-		Image thwomp3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("thwomp3.png"));
-		Image thwomp4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("thwomp4.png"));
+		Image link1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link1.png"));
+		Image link2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link2.png"));
+		Image link3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link3.png"));
+		Image link4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link4.png"));
+		Image link5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link5.png"));
+		Image link6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link6.png"));
+		Image link7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link7.png"));
+		Image link8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link8.png"));
+		Image thwomp1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp1.png"));
+		Image thwomp2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp2.png"));
+		Image thwomp3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp3.png"));
+		Image thwomp4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp4.png"));
 //		Se crea la animación
 		Animacion animL = new Animacion(), animT = new Animacion();
 		animL.sumaCuadro(link1, 130);
