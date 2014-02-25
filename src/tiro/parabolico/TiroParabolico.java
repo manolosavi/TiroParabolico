@@ -35,10 +35,15 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private boolean pause;
 	private boolean sound;
 	private boolean desaparece;
+	private boolean tirando;
 	private int dCount;
 	private int range;
+	private int fallCount;
+	private int lives;
+	private int score;
 	private long tiempoActual;
 	private long tiempoInicial;
+	private Tiro tiro;
 	
 	
 	public TiroParabolico() {
@@ -54,9 +59,13 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	public void init() {
 		setSize(1200,700);
 		
+		fallCount = 0;
+		score = 0;
+		
 		pause = false;
 		sound = false;
 		desaparece = false;
+		tirando = false;
 		
 		boom = new SoundClip("resources/boom.wav");	// Sonido cuando chocas con un malo
 		boom.setLooping(false);
@@ -125,12 +134,12 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		anim2.sumaCuadro(basket3, velbk);
 		anim2.sumaCuadro(basket4, velbk);
 //		Se agrega la animacion a los objetos
-		ball = new Ball(100,100,anim1);
-		ball.setX(getWidth()/2 - ball.getWidth()/2);
-		ball.setY(getHeight()/2 - ball.getHeight()/2);
+		ball = new Ball(0,getHeight()*3/4,anim1);
+		ball.setY(ball.getY()-ball.getHeight()/2);
 		
-		basket = new Basket(0,getHeight()*3/4,anim2);
-		basket.setY(basket.getY()-basket.getHeight()/2);
+		basket = new Basket(100,100,anim2);
+		basket.setX(getWidth()/2 - basket.getWidth()/2);
+		basket.setY(getHeight()/2 - basket.getHeight()/2);
 		
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
@@ -188,24 +197,12 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			tiempoActual += tiempoTranscurrido;
 
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
-			ball.actualiza(tiempoTranscurrido);
-			switch(dir) {
-				case 'u': {
-				    ball.setY(ball.getY() - 1);
-					break;    //se mueve hacia arriba
-				}
-				case 'd': {
-				    ball.setY(ball.getY() + 1);
-					break;    //se mueve hacia abajo
-				}
-				case 'l': {
-				 	ball.setX(ball.getX() - 1);
-					break;    //se mueve hacia izquierda
-				}
-				case 'r': {
-					ball.setX(ball.getX() + 1);
-					break;    //se mueve hacia derecha	
-				}
+			if (tirando) {
+				ball.actualiza(tiempoTranscurrido);
+				
+				tiro.addTime();
+				ball.setX(tiro.getX());
+				ball.setY(tiro.getY());
 			}
 			
 			basket.actualiza(tiempoTranscurrido);
@@ -217,71 +214,26 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * con las orillas del <code>Applet</code>.
 	 */
 	public void checaColision() {
-//		Colision de la tierra con el Applet dependiendo a donde se mueve.
-		switch(dir){
-			case 1: { //se mueve hacia arriba con la flecha arriba.
-				if (ball.getY() < 0) {
-					dir = 'd';
-					if (sound) {
-						bomb.play();
-					}
-				}
-				break;    	
-			}     
-			case 2: { //se mueve hacia abajo con la flecha abajo.
-				if (ball.getY() + ball.getHeight() > getHeight()) {
-					dir = 'u';
-					if (sound) {
-						bomb.play();
-					}
-				}
-				break;    	
-			} 
-			case 3: { //se mueve hacia izquierda con la flecha izquierda.
-				if (ball.getX() < 0) {
-					dir = 'r';
-					if (sound) {
-						bomb.play();
-					}
-				}
-				break;    	
-			}    
-			case 4: { //se mueve hacia derecha con la flecha derecha.
-				if (ball.getX() + ball.getWidth() > getWidth()) {
-					dir = 'l';
-					if (sound) {
-						bomb.play();
-					}
-				}
-				break;
-			}			
-		}
-
-//		
-		if (basket.getY() + basket.getHeight() > getHeight()) {
-			range = (getWidth()-basket.getWidth())-(0) + 1;
-			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
-			basket.setY(-3*basket.getHeight());
+//		Colision con el Applet dependiendo a donde se mueve.
+		if (ball.getY() + ball.getHeight() > getHeight()) {
+			tirando = false;
+			ball.setX(0);
+			ball.setY(ball.getY()-ball.getHeight()/2);
+			fallCount++;
+			if (fallCount == 2) {
+				fallCount = 0;
+				lives--;
+			}
 			if (sound) {
 				bomb.play();
-			}
+			}		
 		}
-		if (basket.getY() < 0) {
-			range = (getWidth()-basket.getWidth())-(0) + 1;
-			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
-			basket.setY(getHeight()+3*basket.getHeight());
-			if (sound) {
-				bomb.play();
-			}
-		}
-		
 
 //		Colision entre objetos
 		if (basket.intersecta(ball)) {
 			desaparece = true;
 			dCount = 75;
-			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
-			basket.score+=1;
+			score+=2;
 			if (sound) {
 				boom.play();
 			}
@@ -321,11 +273,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	public void mousePressed(MouseEvent e) {
 //		Para a ball si se le da click/vuelve a moverse
 		if (ball.didClickInside(e.getX(), e.getY())) {
-			if (dir == '.') {
-				dir = oldDir;
-			} else {
-				oldDir = dir;
-				dir = '.';
+			if (!tirando) {
+				tiro = new Tiro(ball.getX(), ball.getY());
+				tirando = !tirando;
 			}
 		}
 	}
@@ -372,7 +322,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //			Dibuja la imagen en la posicion actualizada
 			g.drawImage(ball.getImage(), ball.getX(),ball.getY(), this);
 			g.drawImage(basket.getImage(), basket.getX(),basket.getY(), this);
-			g.drawString("Score: " + String.valueOf(basket.score), 10, 50);	// draw score at (10,25)
+			g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
 			if (desaparece) {
 				dCount--;
 				if (dCount == 0) {

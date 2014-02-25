@@ -12,7 +12,6 @@ package tiro.parabolico;
 
 public class Basket extends Base {
 	private int vel;
-	public static int score;
 	
 	/**
 	 * Metodo constructor que hereda los atributos de la clase <code>Base</code>.
