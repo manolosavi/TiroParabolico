@@ -10,7 +10,7 @@ package tiro.parabolico;
  * @author manolo
  */
 
-public class Bueno extends Base {
+public class Ball extends Base {
 	private static final String PAUSADO = "pausado";
 	private static final String DESAPARECE = "desaparece";
 	
@@ -20,7 +20,7 @@ public class Bueno extends Base {
 	 * @param y es el <code>posiscion en y</code> del objeto.
 	 * @param a es la <code>animacion</code> del objeto.
 	 */
-	public Bueno(int x, int y, Animacion a){
+	public Ball(int x, int y, Animacion a) {
 		super(x,y,a);
 	}
 	

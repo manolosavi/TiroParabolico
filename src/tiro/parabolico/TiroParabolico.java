@@ -20,17 +20,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.LinkedList;
 
 public class TiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 //	Se declaran las variables.
 	private Image dbImage;		// Imagen a proyectar	
 	private Graphics dbg;		// Objeto grafico
-	private Bueno link;
+	private Ball ball;
+	private Basket basket;
 	private SoundClip boom;		// Objeto AudioClip
 	private SoundClip bomb;		// Objeto AudioClip
-	private LinkedList<Malo> malos = new LinkedList();
 	private char dir;
 	private char oldDir;
 	private boolean pause=false;
@@ -63,49 +62,38 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		
 		
 //		Se cargan las imágenes para la animación
-		Image link1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link1.png"));
-		Image link2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link2.png"));
-		Image link3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link3.png"));
-		Image link4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link4.png"));
-		Image link5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link5.png"));
-		Image link6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link6.png"));
-		Image link7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link7.png"));
-		Image link8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/link8.png"));
-		Image thwomp1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp1.png"));
-		Image thwomp2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp2.png"));
-		Image thwomp3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp3.png"));
-		Image thwomp4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/thwomp4.png"));
+		Image ball1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball1.png"));
+		Image ball2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball2.png"));
+		Image ball3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball3.png"));
+		Image ball4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball4.png"));
+		Image ball5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball5.png"));
+		Image ball6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball6.png"));
+		Image ball7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball7.png"));
+		Image ball8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball8.png"));
+		Image basket1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket1.png"));
+		Image basket2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket2.png"));
+		Image basket3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket3.png"));
+		Image basket4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket4.png"));
 //		Se crea la animación
-		Animacion animL = new Animacion(), animT = new Animacion();
-		animL.sumaCuadro(link1, 130);
-		animL.sumaCuadro(link2, 130);
-		animL.sumaCuadro(link3, 130);
-		animL.sumaCuadro(link4, 130);
-		animL.sumaCuadro(link5, 130);
-		animL.sumaCuadro(link6, 130);
-		animL.sumaCuadro(link7, 130);
-		animL.sumaCuadro(link8, 130);
-		animT.sumaCuadro(thwomp1, 1000);
-		animT.sumaCuadro(thwomp2, 1000);
-		animT.sumaCuadro(thwomp3, 1000);
-		animT.sumaCuadro(thwomp4, 1000);
+		Animacion anim1 = new Animacion(), anim2 = new Animacion();
+		anim1.sumaCuadro(ball1, 130);
+		anim1.sumaCuadro(ball2, 130);
+		anim1.sumaCuadro(ball3, 130);
+		anim1.sumaCuadro(ball4, 130);
+		anim1.sumaCuadro(ball5, 130);
+		anim1.sumaCuadro(ball6, 130);
+		anim1.sumaCuadro(ball7, 130);
+		anim1.sumaCuadro(ball8, 130);
+		anim2.sumaCuadro(basket1, 1000);
+		anim2.sumaCuadro(basket2, 1000);
+		anim2.sumaCuadro(basket3, 1000);
+		anim2.sumaCuadro(basket4, 1000);
 //		Se agrega la animacion a los objetos
-		link = new Bueno(100,100,animL);
-		link.setX(getWidth()/2 - link.getWidth()/2);
-		link.setY(getHeight()/2 - link.getHeight()/2);
+		ball = new Ball(100,100,anim1);
+		ball.setX(getWidth()/2 - ball.getWidth()/2);
+		ball.setY(getHeight()/2 - ball.getHeight()/2);
 		
-//		Crea malos
-		for (int i=0; i<numMalos; i++) {
-			Malo thwomp = new Malo(0,0,animT,((i%2==0)?true:false));
-			range = (getWidth()-thwomp.getWidth())-(0);
-			thwomp.setX((int)(Math.random()*range + 1));	// posision x es random
-			if (i%2 == 0) {
-				thwomp.setY(-3*thwomp.getHeight());
-			} else {
-				thwomp.setY(getHeight()+3*thwomp.getHeight());
-			}
-			malos.add(thwomp);
-		}
+		Basket basket = new Basket(0,getHeight()*3/4,anim2);
 		
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
@@ -134,6 +122,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
      * se repinta el <code>Applet</code> y luego manda a dormir el hilo.
      * 
      */
+	@Override
 	public void run () {
 		while (true) {
 			actualiza();
@@ -162,35 +151,27 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			tiempoActual += tiempoTranscurrido;
 
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
-			link.actualiza(tiempoTranscurrido);
+			ball.actualiza(tiempoTranscurrido);
 			switch(dir) {
 				case 'u': {
-				    link.setY(link.getY() - 1);
+				    ball.setY(ball.getY() - 1);
 					break;    //se mueve hacia arriba
 				}
 				case 'd': {
-				    link.setY(link.getY() + 1);
+				    ball.setY(ball.getY() + 1);
 					break;    //se mueve hacia abajo
 				}
 				case 'l': {
-				 	link.setX(link.getX() - 1);
+				 	ball.setX(ball.getX() - 1);
 					break;    //se mueve hacia izquierda
 				}
 				case 'r': {
-					link.setX(link.getX() + 1);
+					ball.setX(ball.getX() + 1);
 					break;    //se mueve hacia derecha	
 				}
 			}
 			
-			for (int i=0; i<numMalos; i++) {
-				Malo thwomp = malos.get(i);
-				thwomp.actualiza(tiempoTranscurrido);
-				if (thwomp.arriba) {
-					thwomp.setY(thwomp.getY()+thwomp.getVel());
-				} else {
-					thwomp.setY(thwomp.getY()-thwomp.getVel());
-				}
-			}
+			basket.actualiza(tiempoTranscurrido);
 		}
 	}
 	
@@ -202,28 +183,28 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //		Colision de la tierra con el Applet dependiendo a donde se mueve.
 		switch(dir){
 			case 1: { //se mueve hacia arriba con la flecha arriba.
-				if (link.getY() < 0) {
+				if (ball.getY() < 0) {
 					dir = 'd';
 					bomb.play();
 				}
 				break;    	
 			}     
 			case 2: { //se mueve hacia abajo con la flecha abajo.
-				if (link.getY() + link.getHeight() > getHeight()) {
+				if (ball.getY() + ball.getHeight() > getHeight()) {
 					dir = 'u';
 					bomb.play();
 				}
 				break;    	
 			} 
 			case 3: { //se mueve hacia izquierda con la flecha izquierda.
-				if (link.getX() < 0) {
+				if (ball.getX() < 0) {
 					dir = 'r';
 					bomb.play();
 				}
 				break;    	
 			}    
 			case 4: { //se mueve hacia derecha con la flecha derecha.
-				if (link.getX() + link.getWidth() > getWidth()) {
+				if (ball.getX() + ball.getWidth() > getWidth()) {
 					dir = 'l';
 					bomb.play();
 				}
@@ -231,44 +212,28 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			}			
 		}
 
-//		checa colision con el applet
-		for (int i=0; i<numMalos; i++) {
-			Malo thwomp = malos.get(i);
-			
-//			Thwomp se regresa afuera del applet
-			if (thwomp.arriba) {
-				if (thwomp.getY() + thwomp.getHeight() > getHeight()) {
-					range = (getWidth()-thwomp.getWidth())-(0) + 1;
-					thwomp.setX((int)((Math.random()*range) + thwomp.getWidth()/2));
-					thwomp.setY(-3*thwomp.getHeight());
-					bomb.play();
-				}
-			} else {
-				if (thwomp.getY() < 0) {
-					range = (getWidth()-thwomp.getWidth())-(0) + 1;
-					thwomp.setX((int)((Math.random()*range) + thwomp.getWidth()/2));
-					thwomp.setY(getHeight()+3*thwomp.getHeight());
-					bomb.play();
-				}
-			}
+//		
+		if (basket.getY() + basket.getHeight() > getHeight()) {
+			range = (getWidth()-basket.getWidth())-(0) + 1;
+			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
+			basket.setY(-3*basket.getHeight());
+			bomb.play();
 		}
+		if (basket.getY() < 0) {
+			range = (getWidth()-basket.getWidth())-(0) + 1;
+			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
+			basket.setY(getHeight()+3*basket.getHeight());
+			bomb.play();
+		}
+		
 
 //		Colision entre objetos
-		for (int i=0; i<numMalos; i++) {
-			Malo thwomp = malos.get(i);
-			if (thwomp.intersecta(link)) {
-				desaparece = true;
-				dCount = 75;
-//				Thwomp se regresa afuera del applet
-				thwomp.setX((int)((Math.random()*range) + thwomp.getWidth()/2));
-				if (thwomp.arriba) {
-					thwomp.setY(getHeight()-3*thwomp.getHeight());
-				} else {
-					thwomp.setY(getHeight()+3*thwomp.getHeight());
-				}
-				thwomp.score+=1;
-				boom.play();
-			}
+		if (basket.intersecta(ball)) {
+			desaparece = true;
+			dCount = 75;
+			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
+			basket.score+=1;
+			boom.play();
 		}
 	}
 	
@@ -278,14 +243,18 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * @param e es el <code>evento</code> generado al presionar las teclas.
 	 */
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {    //Presiono flecha arriba/w
-			dir = 'u';
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {    //Presiono flecha abajo/s
-			dir = 'd';
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {    //Presiono flecha izquierda/a
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {			//Presiono flecha izquierda/a
 			dir = 'l';
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {    //Presiono flecha derecha/d
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {	//Presiono flecha derecha/d
 			dir = 'r';
+		} else if (e.getKeyCode() == KeyEvent.VK_S) {
+//			Activar/Desactivar sonido
+		} else if (e.getKeyCode() == KeyEvent.VK_I) {
+//			Mostrar/Quitar las instrucciones del juego
+		} else if (e.getKeyCode() == KeyEvent.VK_G) {
+//			Grabar el juego
+		} else if (e.getKeyCode() == KeyEvent.VK_C) {
+//			Cargar un juego guardado
 		}
     }
 	
@@ -302,8 +271,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * @param e es el <code>evento</code> que se genera al empezar un click.
 	 */
 	public void mousePressed(MouseEvent e) {
-//		Para a link si se le da click/vuelve a moverse
-		if (link.didClickInside(e.getX(), e.getY())) {
+//		Para a ball si se le da click/vuelve a moverse
+		if (ball.didClickInside(e.getX(), e.getY())) {
 			if (dir == '.') {
 				dir = oldDir;
 			} else {
@@ -351,28 +320,25 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		g.setFont(new Font("Helvetica", Font.PLAIN, 20));	// plain font size 20
 		g.setColor(Color.white);							// black font
 		
-		for (int i=0; i<numMalos; i++) {
-			Malo thwomp = malos.get(i);
-			if (link != null && thwomp != null) {
-//				Dibuja la imagen en la posicion actualizada
-				g.drawImage(link.getImage(), link.getX(),link.getY(), this);
-				g.drawImage(thwomp.getImage(), thwomp.getX(),thwomp.getY(), this);
-				g.drawString("Score: " + String.valueOf(thwomp.score), 10, 50);	// draw score at (10,25)
-				if (desaparece) {
-					dCount--;
-					if (dCount == 0) {
-						desaparece = !desaparece;
-					}
-					g.drawString(link.getDesaparece(),link.getX(),link.getY());
+		if (ball != null && basket != null) {
+//			Dibuja la imagen en la posicion actualizada
+			g.drawImage(ball.getImage(), ball.getX(),ball.getY(), this);
+			g.drawImage(basket.getImage(), basket.getX(),basket.getY(), this);
+			g.drawString("Score: " + String.valueOf(basket.score), 10, 50);	// draw score at (10,25)
+			if (desaparece) {
+				dCount--;
+				if (dCount == 0) {
+					desaparece = !desaparece;
 				}
-			} else {
-//				Da un mensaje mientras se carga el dibujo	
-				g.drawString("No se cargo la imagen..", 20, 20);
+				g.drawString(ball.getDesaparece(),ball.getX(),ball.getY());
 			}
+		} else {
+//			Da un mensaje mientras se carga el dibujo	
+			g.drawString("No se cargo la imagen..", 20, 20);
 		}
 			
 		if (pause) {
-			g.drawString(link.getPausado(),link.getX(),link.getY());
+			g.drawString(ball.getPausado(),ball.getX(),ball.getY());
 		}
 	}
 	

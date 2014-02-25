@@ -10,9 +10,8 @@ package tiro.parabolico;
  * @author manolo
  */
 
-public class Malo extends Base {
+public class Basket extends Base {
 	private int vel;
-	public boolean arriba;
 	public static int score;
 	
 	/**
@@ -22,9 +21,8 @@ public class Malo extends Base {
 	 * @param a es la <code>animacion</code> del objeto.
 	 * @param arr es la <code>posicion</code> del objeto (arriba/abajo del applet).
 	 */
-	public Malo(int x, int y, Animacion a, boolean arr) {
+	public Basket(int x, int y, Animacion a) {
 		super(x,y,a);
-		arriba = arr;
 		vel = (int)(Math.random()*4+3);
 	}
 	
