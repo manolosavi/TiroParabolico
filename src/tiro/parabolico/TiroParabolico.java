@@ -32,8 +32,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private SoundClip bomb;		// Objeto AudioClip
 	private char dir;
 	private char oldDir;
-	private boolean pause=false;
-	private boolean desaparece=false;
+	private boolean pause;
+	private boolean sound;
+	private boolean desaparece;
 	private int dCount;
 	private int range;
 	private long tiempoActual;
@@ -52,6 +53,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
      */
 	public void init() {
 		setSize(1200,700);
+		
+		pause = false;
+		sound = false;
+		desaparece = false;
 		
 		boom = new SoundClip("resources/boom.wav");	// Sonido cuando chocas con un malo
 		boom.setLooping(false);
@@ -217,28 +222,36 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			case 1: { //se mueve hacia arriba con la flecha arriba.
 				if (ball.getY() < 0) {
 					dir = 'd';
-					bomb.play();
+					if (sound) {
+						bomb.play();
+					}
 				}
 				break;    	
 			}     
 			case 2: { //se mueve hacia abajo con la flecha abajo.
 				if (ball.getY() + ball.getHeight() > getHeight()) {
 					dir = 'u';
-					bomb.play();
+					if (sound) {
+						bomb.play();
+					}
 				}
 				break;    	
 			} 
 			case 3: { //se mueve hacia izquierda con la flecha izquierda.
 				if (ball.getX() < 0) {
 					dir = 'r';
-					bomb.play();
+					if (sound) {
+						bomb.play();
+					}
 				}
 				break;    	
 			}    
 			case 4: { //se mueve hacia derecha con la flecha derecha.
 				if (ball.getX() + ball.getWidth() > getWidth()) {
 					dir = 'l';
-					bomb.play();
+					if (sound) {
+						bomb.play();
+					}
 				}
 				break;
 			}			
@@ -249,13 +262,17 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			range = (getWidth()-basket.getWidth())-(0) + 1;
 			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
 			basket.setY(-3*basket.getHeight());
-			bomb.play();
+			if (sound) {
+				bomb.play();
+			}
 		}
 		if (basket.getY() < 0) {
 			range = (getWidth()-basket.getWidth())-(0) + 1;
 			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
 			basket.setY(getHeight()+3*basket.getHeight());
-			bomb.play();
+			if (sound) {
+				bomb.play();
+			}
 		}
 		
 
@@ -265,7 +282,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			dCount = 75;
 			basket.setX((int)((Math.random()*range) + basket.getWidth()/2));
 			basket.score+=1;
-			boom.play();
+			if (sound) {
+				boom.play();
+			}
 		}
 	}
 	
@@ -280,21 +299,18 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {	//Presiono flecha derecha/d
 			dir = 'r';
 		} else if (e.getKeyCode() == KeyEvent.VK_S) {
-//			Activar/Desactivar sonido
+			sound = !sound;
 		} else if (e.getKeyCode() == KeyEvent.VK_I) {
 //			Mostrar/Quitar las instrucciones del juego
 		} else if (e.getKeyCode() == KeyEvent.VK_G) {
 //			Grabar el juego
 		} else if (e.getKeyCode() == KeyEvent.VK_C) {
 //			Cargar un juego guardado
-		}
-    }
-	
-	public void keyReleased(KeyEvent e){
-		if (e.getKeyChar() == 'p') {
+		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			pause = !pause;
 		}
-	}
+    }
+	public void keyReleased(KeyEvent e){}
 	public void keyTyped(KeyEvent e){}
 	
 	/**
