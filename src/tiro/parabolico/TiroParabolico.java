@@ -38,8 +38,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private int range;
 	private long tiempoActual;
 	private long tiempoInicial;
-	private int rM = (int)(Math.random()*3+1);
-	private int numMalos=(rM==1)?12:(rM==2)?14:16;
 	
 	
 	public TiroParabolico() {
@@ -70,30 +68,64 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		Image ball6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball6.png"));
 		Image ball7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball7.png"));
 		Image ball8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball8.png"));
+		Image ball9 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball9.png"));
+		Image ball10 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball10.png"));
+		Image ball11 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball11.png"));
+		Image ball12 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball12.png"));
+		Image ball13 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball13.png"));
+		Image ball14 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball14.png"));
+		Image ball15 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball15.png"));
+		Image ball16 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball16.png"));
+		Image ball17 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball17.png"));
+		Image ball18 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball18.png"));
+		Image ball19 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball19.png"));
+		Image ball20 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball20.png"));
+		Image ball21 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball21.png"));
+		Image ball22 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball22.png"));
+		Image ball23 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball23.png"));
+		Image ball24 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball24.png"));
 		Image basket1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket1.png"));
 		Image basket2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket2.png"));
 		Image basket3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket3.png"));
 		Image basket4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket4.png"));
 //		Se crea la animación
 		Animacion anim1 = new Animacion(), anim2 = new Animacion();
-		anim1.sumaCuadro(ball1, 130);
-		anim1.sumaCuadro(ball2, 130);
-		anim1.sumaCuadro(ball3, 130);
-		anim1.sumaCuadro(ball4, 130);
-		anim1.sumaCuadro(ball5, 130);
-		anim1.sumaCuadro(ball6, 130);
-		anim1.sumaCuadro(ball7, 130);
-		anim1.sumaCuadro(ball8, 130);
-		anim2.sumaCuadro(basket1, 1000);
-		anim2.sumaCuadro(basket2, 1000);
-		anim2.sumaCuadro(basket3, 1000);
-		anim2.sumaCuadro(basket4, 1000);
+		int velb = 100, velbk = 1000;
+		anim1.sumaCuadro(ball1, velb);
+		anim1.sumaCuadro(ball2, velb);
+		anim1.sumaCuadro(ball3, velb);
+		anim1.sumaCuadro(ball4, velb);
+		anim1.sumaCuadro(ball5, velb);
+		anim1.sumaCuadro(ball6, velb);
+		anim1.sumaCuadro(ball7, velb);
+		anim1.sumaCuadro(ball8, velb);
+		anim1.sumaCuadro(ball9, velb);
+		anim1.sumaCuadro(ball10, velb);
+		anim1.sumaCuadro(ball11, velb);
+		anim1.sumaCuadro(ball12, velb);
+		anim1.sumaCuadro(ball13, velb);
+		anim1.sumaCuadro(ball14, velb);
+		anim1.sumaCuadro(ball15, velb);
+		anim1.sumaCuadro(ball16, velb);
+		anim1.sumaCuadro(ball17, velb);
+		anim1.sumaCuadro(ball18, velb);
+		anim1.sumaCuadro(ball19, velb);
+		anim1.sumaCuadro(ball20, velb);
+		anim1.sumaCuadro(ball21, velb);
+		anim1.sumaCuadro(ball22, velb);
+		anim1.sumaCuadro(ball23, velb);
+		anim1.sumaCuadro(ball24, velb);
+		anim2.sumaCuadro(basket1, velbk);
+		anim2.sumaCuadro(basket2, velbk);
+		anim2.sumaCuadro(basket3, velbk);
+		anim2.sumaCuadro(basket4, velbk);
 //		Se agrega la animacion a los objetos
 		ball = new Ball(100,100,anim1);
 		ball.setX(getWidth()/2 - ball.getWidth()/2);
 		ball.setY(getHeight()/2 - ball.getHeight()/2);
 		
-		Basket basket = new Basket(0,getHeight()*3/4,anim2);
+		basket = new Basket(0,getHeight()*3/4,anim2);
+		basket.setY(basket.getY()-basket.getHeight()/2);
 		
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
