@@ -29,8 +29,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //	Se declaran las variables.
 	private Image dbImage;		// Imagen a proyectar	
 	private Graphics dbg;		// Objeto grafico
-	private Ball ball;
-	private Basket basket;
+	private Base brain;
+	private Base zombie;
 	private SoundClip boom;		// Objeto AudioClip
 	private SoundClip bomb;		// Objeto AudioClip
 	private char dir;			//dir es la direccion que le vas a dar al objeto 
@@ -45,7 +45,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private int score;
 	private long tiempoActual;
 	private long tiempoInicial;
-	private Tiro tiro;
 	private double velX, velY;
 	private double time;
 	private double deg;
@@ -139,12 +138,12 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		anim2.sumaCuadro(basket3, velbk);
 		anim2.sumaCuadro(basket4, velbk);
 //		Se agrega la animacion a los objetos
-		ball = new Ball(0,getHeight()*3/4,anim1);
-		ball.setY(ball.getY()-ball.getHeight()/2);
+		brain = new Base(0,getHeight()*3/4,anim1);
+		brain.setY(brain.getY()-brain.getHeight()/2);
 		
-		basket = new Basket(100,100,anim2);
-		basket.setX(getWidth()/2 - basket.getWidth()/2);
-		basket.setY(getHeight()/2 - basket.getHeight()/2);
+		zombie = new Base(100,100,anim2);
+		zombie.setX(getWidth()/2 - zombie.getWidth()/2);
+		zombie.setY(getHeight()/2 - zombie.getHeight()/2);
 		
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
@@ -203,20 +202,20 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
 			if (tirando) {
-				if (ball.getX() == 0) {
+				if (brain.getX() == 0) {
 					time = 1;
-					deg = (Math.random()*1.2) + 0.5;
-					double vel = sqrt((Math.random()*600 + 568) /sin(2*deg));
+					deg = (Math.random()*0.8) + 0.5;
+					double vel = sqrt((Math.random()*600 + 550)/sin(2*deg));
 					velX = vel*cos(deg);
 					velY = -vel*sin(deg);
 				}
-				ball.actualiza(tiempoTranscurrido);
-				ball.setX((int) (ball.getX()+velX));
-				ball.setY((int) (ball.getY()+(velY++)));
+				brain.actualiza(tiempoTranscurrido);
+				brain.setX((int) (brain.getX()+velX));
+				brain.setY((int) (brain.getY()+(velY++)));
 				time+=1;
 			}
 			
-			basket.actualiza(tiempoTranscurrido);
+			zombie.actualiza(tiempoTranscurrido);
 		}
 	}
 	
@@ -226,10 +225,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 */
 	public void checaColision() {
 //		Colision con el Applet dependiendo a donde se mueve.
-		if (ball.getY() + ball.getHeight() > getHeight()) {
+		if (brain.getY() + brain.getHeight() > getHeight()) {
 			tirando = false;
-			ball.setX(0);
-			ball.setY(ball.getY()-ball.getHeight()/2);
+			brain.setX(0);
+			brain.setY(brain.getY()-brain.getHeight()/2);
 			fallCount++;
 			if (fallCount == 2) {
 				fallCount = 0;
@@ -241,7 +240,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		}
 
 //		Colision entre objetos
-		if (basket.intersecta(ball)) {
+		if (zombie.intersecta(brain)) {
 			desaparece = true;
 			
 			score+=2;
@@ -282,10 +281,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * @param e es el <code>evento</code> que se genera al empezar un click.
 	 */
 	public void mousePressed(MouseEvent e) {
-//		Para a ball si se le da click/vuelve a moverse
-		if (ball.didClickInside(e.getX(), e.getY())) {
+//		Para a brain si se le da click/vuelve a moverse
+		if (brain.didClickInside(e.getX(), e.getY())) {
 			if (!tirando) {
-//				tiro = new Tiro(ball.getX(), ball.getY());
 				tirando = !tirando;
 			}
 		}
@@ -329,10 +327,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		g.setFont(new Font("Helvetica", Font.PLAIN, 20));	// plain font size 20
 		g.setColor(Color.white);							// black font
 		
-		if (ball != null && basket != null) {
+		if (brain != null && zombie != null) {
 //			Dibuja la imagen en la posicion actualizada
-			g.drawImage(ball.getImage(), ball.getX(),ball.getY(), this);
-			g.drawImage(basket.getImage(), basket.getX(),basket.getY(), this);
+			g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
+			g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
 			g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
 		} else {
 //			Da un mensaje mientras se carga el dibujo	
@@ -340,7 +338,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		}
 			
 		if (pause) {
-			g.drawString(ball.getPausado(),ball.getX(),ball.getY());
+			
 		}
 	}
 	
