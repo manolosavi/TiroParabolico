@@ -30,20 +30,20 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private Basket basket;
 	private SoundClip boom;		// Objeto AudioClip
 	private SoundClip bomb;		// Objeto AudioClip
-	private char dir;
-	private char oldDir;
-	private boolean pause;
-	private boolean sound;
-	private boolean desaparece;
-	private boolean tirando;
-	private int dCount;
-	private int range;
+	private char dir;			//dir es la direccion que le vas a dar al objeto 
+	private char oldDir;		//old dir es la direccion vieja que tenia el objeto 
+	private boolean pause;		//pause es un booleano para checar si el juego esta en pausa
+	private boolean sound;		
+	private boolean desaparece;	//es para ver si el desplegado de desaparece es igual a true o no
+	private boolean tirando;	//tirando es para ver si el misil o el objeto se encuentra moviendo 
+	private int range;			
 	private int fallCount;
-	private int lives;
-	private int score;
-	private long tiempoActual;
-	private long tiempoInicial;
-	private Tiro tiro;
+	private int lives;			//vidas del objeto para ver cuando va a perder
+	private int score;				//el score 
+	private long tiempoActual;		//Es el tiempo actual que lleva el juego
+	private long tiempoInicial;		//tiempo inicial del juego para ir actualizando el juego 
+	private Tiro tiro;				
+	private String nombredeArchivo; //nombre del Archivo que guarda
 	
 	
 	public TiroParabolico() {
@@ -232,7 +232,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //		Colision entre objetos
 		if (basket.intersecta(ball)) {
 			desaparece = true;
-			dCount = 75;
+			
 			score+=2;
 			if (sound) {
 				boom.play();
@@ -323,13 +323,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			g.drawImage(ball.getImage(), ball.getX(),ball.getY(), this);
 			g.drawImage(basket.getImage(), basket.getX(),basket.getY(), this);
 			g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
-			if (desaparece) {
-				dCount--;
-				if (dCount == 0) {
-					desaparece = !desaparece;
-				}
-				g.drawString(ball.getDesaparece(),ball.getX(),ball.getY());
-			}
 		} else {
 //			Da un mensaje mientras se carga el dibujo	
 			g.drawString("No se cargo la imagen..", 20, 20);
