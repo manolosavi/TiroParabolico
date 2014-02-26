@@ -205,9 +205,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			if (tirando) {
 				if (ball.getX() == 0) {
 					time = 1;
-					deg = (Math.random()*1.3) + 0.4;
-					velY = (Math.random()*-20)-5;
-					velX = (Math.random()*(-velY)/deg)+15;
+					deg = (Math.random()*1.2) + 0.5;
+					double vel = sqrt((Math.random()*600 + 568) /sin(2*deg));
+					velX = vel*cos(deg);
+					velY = -vel*sin(deg);
 				}
 				ball.actualiza(tiempoTranscurrido);
 				ball.setX((int) (ball.getX()+velX));
