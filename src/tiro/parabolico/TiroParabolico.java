@@ -20,6 +20,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 public class TiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
 	private static final long serialVersionUID = 1L;
@@ -38,12 +41,14 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private boolean tirando;	//tirando es para ver si el misil o el objeto se encuentra moviendo 
 	private int range;			
 	private int fallCount;
-	private int lives;			//vidas del objeto para ver cuando va a perder
-	private int score;				//el score 
-	private long tiempoActual;		//Es el tiempo actual que lleva el juego
-	private long tiempoInicial;		//tiempo inicial del juego para ir actualizando el juego 
-	private Tiro tiro;				
-	private String nombredeArchivo; //nombre del Archivo que guarda
+	private int lives;
+	private int score;
+	private long tiempoActual;
+	private long tiempoInicial;
+	private Tiro tiro;
+	private double velX, velY;
+	private double time;
+	private double deg;
 	
 	
 	public TiroParabolico() {
@@ -198,11 +203,16 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
 			if (tirando) {
+				if (ball.getX() == 0) {
+					time = 1;
+					deg = (Math.random()*1.3) + 0.4;
+					velY = (Math.random()*-20)-5;
+					velX = (Math.random()*(-velY)/deg)+15;
+				}
 				ball.actualiza(tiempoTranscurrido);
-				
-				tiro.addTime();
-				ball.setX(tiro.getX());
-				ball.setY(tiro.getY());
+				ball.setX((int) (ball.getX()+velX));
+				ball.setY((int) (ball.getY()+(velY++)));
+				time+=1;
 			}
 			
 			basket.actualiza(tiempoTranscurrido);
@@ -274,7 +284,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //		Para a ball si se le da click/vuelve a moverse
 		if (ball.didClickInside(e.getX(), e.getY())) {
 			if (!tirando) {
-				tiro = new Tiro(ball.getX(), ball.getY());
+//				tiro = new Tiro(ball.getX(), ball.getY());
 				tirando = !tirando;
 			}
 		}

@@ -15,9 +15,8 @@ import static java.lang.Math.sqrt;
  */
 
 public class Tiro {
-	int time;
 	int deg, range, startX, startY, currentX, currentY;
-	double vel;
+	double vel, time;
 	
 	Tiro() {
 		time = 0;
@@ -31,12 +30,12 @@ public class Tiro {
 		startY = sY;
 	}
 	
-	int getTime() {
+	double getTime() {
 		return time;
 	}
 	
 	void addTime() {
-		time++;
+		time+=0.030;
 	}
 	
 	int getX() {
