@@ -36,8 +36,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private char dir;			//dir es la direccion que le vas a dar al objeto 
 	private char oldDir;		//old dir es la direccion vieja que tenia el objeto 
 	private boolean pause;		//pause es un booleano para checar si el juego esta en pausa
-	private boolean sound;		
-	private boolean desaparece;	//es para ver si el desplegado de desaparece es igual a true o no
+	private boolean sound;
 	private boolean tirando;	//tirando es para ver si el misil o el objeto se encuentra moviendo 
 	private int range;			
 	private int fallCount;
@@ -46,7 +45,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private long tiempoActual;
 	private long tiempoInicial;
 	private double velX, velY;
-	private double time;
 	private double deg;
 	
 	
@@ -68,7 +66,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		
 		pause = false;
 		sound = false;
-		desaparece = false;
 		tirando = false;
 		
 		boom = new SoundClip("resources/boom.wav");	// Sonido cuando chocas con un malo
@@ -108,42 +105,42 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		Image basket4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket4.png"));
 //		Se crea la animación
 		Animacion anim1 = new Animacion(), anim2 = new Animacion();
-		int velb = 100, velbk = 1000;
-		anim1.sumaCuadro(ball1, velb);
-		anim1.sumaCuadro(ball2, velb);
-		anim1.sumaCuadro(ball3, velb);
-		anim1.sumaCuadro(ball4, velb);
-		anim1.sumaCuadro(ball5, velb);
-		anim1.sumaCuadro(ball6, velb);
-		anim1.sumaCuadro(ball7, velb);
-		anim1.sumaCuadro(ball8, velb);
-		anim1.sumaCuadro(ball9, velb);
-		anim1.sumaCuadro(ball10, velb);
-		anim1.sumaCuadro(ball11, velb);
-		anim1.sumaCuadro(ball12, velb);
-		anim1.sumaCuadro(ball13, velb);
-		anim1.sumaCuadro(ball14, velb);
-		anim1.sumaCuadro(ball15, velb);
-		anim1.sumaCuadro(ball16, velb);
-		anim1.sumaCuadro(ball17, velb);
-		anim1.sumaCuadro(ball18, velb);
-		anim1.sumaCuadro(ball19, velb);
-		anim1.sumaCuadro(ball20, velb);
-		anim1.sumaCuadro(ball21, velb);
-		anim1.sumaCuadro(ball22, velb);
-		anim1.sumaCuadro(ball23, velb);
-		anim1.sumaCuadro(ball24, velb);
-		anim2.sumaCuadro(basket1, velbk);
-		anim2.sumaCuadro(basket2, velbk);
-		anim2.sumaCuadro(basket3, velbk);
-		anim2.sumaCuadro(basket4, velbk);
+		int brainFrameTime = 100, zombieFrameTime = 1000;
+		anim1.sumaCuadro(ball1, brainFrameTime);
+		anim1.sumaCuadro(ball2, brainFrameTime);
+		anim1.sumaCuadro(ball3, brainFrameTime);
+		anim1.sumaCuadro(ball4, brainFrameTime);
+		anim1.sumaCuadro(ball5, brainFrameTime);
+		anim1.sumaCuadro(ball6, brainFrameTime);
+		anim1.sumaCuadro(ball7, brainFrameTime);
+		anim1.sumaCuadro(ball8, brainFrameTime);
+		anim1.sumaCuadro(ball9, brainFrameTime);
+		anim1.sumaCuadro(ball10, brainFrameTime);
+		anim1.sumaCuadro(ball11, brainFrameTime);
+		anim1.sumaCuadro(ball12, brainFrameTime);
+		anim1.sumaCuadro(ball13, brainFrameTime);
+		anim1.sumaCuadro(ball14, brainFrameTime);
+		anim1.sumaCuadro(ball15, brainFrameTime);
+		anim1.sumaCuadro(ball16, brainFrameTime);
+		anim1.sumaCuadro(ball17, brainFrameTime);
+		anim1.sumaCuadro(ball18, brainFrameTime);
+		anim1.sumaCuadro(ball19, brainFrameTime);
+		anim1.sumaCuadro(ball20, brainFrameTime);
+		anim1.sumaCuadro(ball21, brainFrameTime);
+		anim1.sumaCuadro(ball22, brainFrameTime);
+		anim1.sumaCuadro(ball23, brainFrameTime);
+		anim1.sumaCuadro(ball24, brainFrameTime);
+		anim2.sumaCuadro(basket1, zombieFrameTime);
+		anim2.sumaCuadro(basket2, zombieFrameTime);
+		anim2.sumaCuadro(basket3, zombieFrameTime);
+		anim2.sumaCuadro(basket4, zombieFrameTime);
 //		Se agrega la animacion a los objetos
 		brain = new Base(0,getHeight()*3/4,anim1);
 		brain.setY(brain.getY()-brain.getHeight()/2);
 		
-		zombie = new Base(100,100,anim2);
-		zombie.setX(getWidth()/2 - zombie.getWidth()/2);
-		zombie.setY(getHeight()/2 - zombie.getHeight()/2);
+		zombie = new Base(0,636,anim2);
+		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2) - zombie.getWidth()));
+//		zombie.setY(getHeight() - 2*zombie.getHeight());
 		
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
@@ -180,7 +177,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			repaint();	// Se actualiza el <code>Applet</code> repintando el contenido.
 			try	{
 //				El thread se duerme.
-				Thread.sleep (30);
+				Thread.sleep (20);
 			}
 			catch (InterruptedException ex)	{
 				System.out.println("Error en " + ex.toString());
@@ -203,7 +200,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
 			if (tirando) {
 				if (brain.getX() == 0) {
-					time = 1;
 					deg = (Math.random()*0.8) + 0.5;
 					double vel = sqrt((Math.random()*600 + 550)/sin(2*deg));
 					velX = vel*cos(deg);
@@ -212,10 +208,21 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				brain.actualiza(tiempoTranscurrido);
 				brain.setX((int) (brain.getX()+velX));
 				brain.setY((int) (brain.getY()+(velY++)));
-				time+=1;
 			}
 			
-			zombie.actualiza(tiempoTranscurrido);
+			if (dir == 'l') {
+				zombie.actualiza(tiempoTranscurrido);
+				int newX = zombie.getX()-5;
+				if (newX >= getWidth()/2) {
+					zombie.setX(newX);
+				}
+			} else if (dir == 'r') {
+				zombie.actualiza(tiempoTranscurrido);
+				int newX = zombie.getX()+5;
+				if (newX <= getWidth()-zombie.getWidth()) {
+					zombie.setX(newX);
+				}
+			}
 		}
 	}
 	
@@ -241,8 +248,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 
 //		Colision entre objetos
 		if (zombie.intersecta(brain)) {
-			desaparece = true;
-			
+			tirando = false;
+			brain.setX(0);
+			brain.setY(brain.getY()-brain.getHeight()/2);
 			score+=2;
 			if (sound) {
 				boom.play();
@@ -272,7 +280,15 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			pause = !pause;
 		}
     }
-	public void keyReleased(KeyEvent e){}
+	
+	public void keyReleased(KeyEvent e){
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			dir = '.';
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			dir = '.';
+		}
+	}
+	
 	public void keyTyped(KeyEvent e){}
 	
 	/**
