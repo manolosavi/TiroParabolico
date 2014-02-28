@@ -135,11 +135,11 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		anim2.sumaCuadro(basket3, zombieFrameTime);
 		anim2.sumaCuadro(basket4, zombieFrameTime);
 //		Se agrega la animacion a los objetos
-		brain = new Base(0,getHeight()*3/4,anim1);
-		brain.setY(brain.getY()-brain.getHeight()/2);
+		brain = new Base(0,0,anim1);
+		brain.setY(getHeight()-brain.getHeight());
 		
 		zombie = new Base(0,636,anim2);
-		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2) - zombie.getWidth()));
+		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2 - zombie.getWidth())));
 //		zombie.setY(getHeight() - 2*zombie.getHeight());
 		
 		setBackground(new Color(43, 48, 51));
@@ -200,14 +200,14 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //			Actualiza la posicion y la animación en base al tiempo transcurrido
 			if (tirando) {
 				if (brain.getX() == 0) {
-					deg = (Math.random()*0.8) + 0.5;
-					double vel = sqrt((Math.random()*600 + 550)/sin(2*deg));
+					deg = (Math.random()*0.7) + 0.5;
+					double vel = sqrt((Math.random()*500 + 550)/sin(2*deg));
 					velX = vel*cos(deg);
 					velY = -vel*sin(deg);
 				}
 				brain.actualiza(tiempoTranscurrido);
 				brain.setX((int) (brain.getX()+velX));
-				brain.setY((int) (brain.getY()+(velY++)));
+				brain.setY((int) (brain.getY()+velY++));
 			}
 			
 			if (dir == 'l') {
@@ -235,9 +235,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		if (brain.getY() + brain.getHeight() > getHeight()) {
 			tirando = false;
 			brain.setX(0);
-			brain.setY(brain.getY()-brain.getHeight()/2);
+			brain.setY(getHeight()-brain.getHeight());
 			fallCount++;
-			if (fallCount == 2) {
+			if (fallCount == 3) {
 				fallCount = 0;
 				lives--;
 			}
@@ -250,7 +250,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		if (zombie.intersecta(brain)) {
 			tirando = false;
 			brain.setX(0);
-			brain.setY(brain.getY()-brain.getHeight()/2);
+			brain.setY(getHeight()-brain.getHeight());
 			score+=2;
 			if (sound) {
 				boom.play();
