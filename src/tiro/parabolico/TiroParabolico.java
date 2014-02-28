@@ -20,6 +20,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
@@ -33,11 +40,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private Base zombie;
 	private SoundClip boom;		// Objeto AudioClip
 	private SoundClip bomb;		// Objeto AudioClip
-	private char dir;			//dir es la direccion que le vas a dar al objeto 
-	private char oldDir;		//old dir es la direccion vieja que tenia el objeto 
-	private boolean pause;		//pause es un booleano para checar si el juego esta en pausa
+	private char dir;			// dir es la direccion que le vas a dar al objeto 
+	private boolean pause;		// pause es un booleano para checar si el juego esta en pausa
 	private boolean sound;
-	private boolean tirando;	//tirando es para ver si el misil o el objeto se encuentra moviendo 
+	private boolean tirando;	// tirando es para ver si el misil o el objeto se encuentra moviendo 
 	private int range;			
 	private int fallCount;
 	private int lives;
@@ -46,6 +52,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private long tiempoInicial;
 	private double velX, velY;
 	private double deg;
+	private boolean guardar; 	// guardar es la propiedad que establece que se va a guardar el juego 
+	private boolean cargar; 	// cargar el juego previamiente establecida
 	
 	
 	public TiroParabolico() {
@@ -64,6 +72,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		fallCount = 0;
 		score = 0;
 		
+		guardar = false;
+		cargar = false;
 		pause = false;
 		sound = false;
 		tirando = false;
@@ -190,6 +200,24 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * 
 	 */
 	public void actualiza() {
+		if(guardar){
+			guardar = false;
+			try {
+			 grabaArchivo();
+			} catch(IOException e) {
+			 System.out.println("Error en guardar");
+			}
+		 }
+
+		 if(cargar){
+			cargar = false;
+			try {
+			leeArchivo();
+			} catch(IOException e) {
+			 System.out.println("Error en cargar");
+			 }
+		}
+		
 		if (!pause) {
 //			Determina el tiempo que ha transcurrido desde que el Applet inicio su ejecución
 			long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
@@ -224,6 +252,49 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				}
 			}
 		}
+	}
+	
+	public void leeArchivo() throws IOException{
+		BufferedReader fileIn;
+                try {
+                        fileIn = new BufferedReader(new FileReader("Guardado"));
+                } catch (FileNotFoundException e){
+                        File puntos = new File("Guardado");
+                        PrintWriter fileOut = new PrintWriter(puntos);
+                        fileOut.println("100,demo");
+                        fileOut.close();
+                        fileIn = new BufferedReader(new FileReader("Guardado"));
+                }
+                String dato = fileIn.readLine();
+                      deg = (Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      score = (Integer.parseInt(dato));
+                      dato= fileIn.readLine();
+                      tiempoActual = (Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      brain.setX(Integer.parseInt(dato));
+                      dato =fileIn.readLine();
+                      brain.setY(Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      zombie.setX(Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      tirando = Boolean.parseBoolean(dato);
+
+                fileIn.close();
+	}
+	
+
+	public void grabaArchivo() throws IOException{
+		PrintWriter fileOut= new PrintWriter(new FileWriter("Guardado"));
+		fileOut.println(String.valueOf(deg));
+		fileOut.println(String.valueOf(score));
+		fileOut.println(String.valueOf(tiempoActual));
+		fileOut.println(String.valueOf(brain.getX()));
+		fileOut.println(String.valueOf(brain.getY()));
+		fileOut.println(String.valueOf(zombie.getX()));
+		fileOut.println(String.valueOf(tirando));
+
+		fileOut.close();
 	}
 	
 	/**
@@ -273,9 +344,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		} else if (e.getKeyCode() == KeyEvent.VK_I) {
 //			Mostrar/Quitar las instrucciones del juego
 		} else if (e.getKeyCode() == KeyEvent.VK_G) {
-//			Grabar el juego
+			guardar = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_C) {
-//			Cargar un juego guardado
+			cargar = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			pause = !pause;
 		}
@@ -288,7 +359,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			dir = '.';
 		}
 	}
-	
 	public void keyTyped(KeyEvent e){}
 	
 	/**
