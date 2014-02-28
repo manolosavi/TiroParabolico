@@ -266,11 +266,11 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
                         fileIn = new BufferedReader(new FileReader("Guardado"));
                 }
                 String dato = fileIn.readLine();
-                      deg = (Integer.parseInt(dato));
+                      deg = (Double.parseDouble(dato));
                       dato = fileIn.readLine();
                       score = (Integer.parseInt(dato));
                       dato= fileIn.readLine();
-                      tiempoActual = (Integer.parseInt(dato));
+                      tiempoActual = (Long.parseLong(dato));
                       dato = fileIn.readLine();
                       brain.setX(Integer.parseInt(dato));
                       dato =fileIn.readLine();
@@ -279,6 +279,12 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
                       zombie.setX(Integer.parseInt(dato));
                       dato = fileIn.readLine();
                       tirando = Boolean.parseBoolean(dato);
+                      dato = fileIn.readLine();
+                      pause = Boolean.parseBoolean(dato);
+                      dato = fileIn.readLine();
+                      velX = Double.parseDouble(dato);
+                      dato = fileIn.readLine();
+                      velY = Double.parseDouble(dato);
 
                 fileIn.close();
 	}
@@ -293,6 +299,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		fileOut.println(String.valueOf(brain.getY()));
 		fileOut.println(String.valueOf(zombie.getX()));
 		fileOut.println(String.valueOf(tirando));
+                fileOut.println(String.valueOf(pause));
+                fileOut.println(String.valueOf(velX));
+                fileOut.println(String.valueOf(velY));
+                
 
 		fileOut.close();
 	}
