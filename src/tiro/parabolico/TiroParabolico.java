@@ -294,6 +294,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		velX = Double.parseDouble(dato);
 		dato = fileIn.readLine();
 		velY = Double.parseDouble(dato);
+		dato = fileIn.readLine();
+		fallCount = Integer.parseInt(dato);
 
 		fileIn.close();
 	}
@@ -312,6 +314,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		fileOut.println(String.valueOf(estado));
 		fileOut.println(String.valueOf(velX));
 		fileOut.println(String.valueOf(velY));
+		fileOut.println(String.valueOf(fallCount));
 		
 		fileOut.close();
 	}
