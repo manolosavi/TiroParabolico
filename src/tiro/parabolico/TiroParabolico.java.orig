@@ -48,9 +48,14 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private int score;              // el puntaje del jugador
 	private long tiempoActual;      //el tiempo actual que esta corriendo el jar
 	private long tiempoInicial;
+<<<<<<< HEAD
 	private double velX, velY;
 	private double deg;
 	private double gravedad;
+=======
+	private double velX, velY;      //la velocidad en x y y del cerebro
+	private double deg;             //el angulo del cerebro
+>>>>>>> 6b6914acf510852ebba014f371278e0ff9f74fb8
 	private boolean guardar; 	// guardar es la propiedad que establece que se va a guardar el juego 
 	private boolean cargar; 	// cargar el juego previamiente establecida
        
@@ -74,8 +79,11 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		lives = 5;
 		fallCount = 0;
 		score = 0;
+<<<<<<< HEAD
 		gravedad = 1;
-		estado = 0;
+=======
+                estado = 0;
+>>>>>>> 6b6914acf510852ebba014f371278e0ff9f74fb8
 		
 		guardar = false;
 		cargar = false;
@@ -262,34 +270,34 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	public void leeArchivo() throws IOException{
 		BufferedReader fileIn;
                 try {
-					fileIn = new BufferedReader(new FileReader("Guardado"));
+                        fileIn = new BufferedReader(new FileReader("Guardado"));
                 } catch (FileNotFoundException e){
-					File puntos = new File("Guardado");
-					PrintWriter fileOut = new PrintWriter(puntos);
-					fileOut.println("100,demo");
-					fileOut.close();
-					fileIn = new BufferedReader(new FileReader("Guardado"));
+                        File puntos = new File("Guardado");
+                        PrintWriter fileOut = new PrintWriter(puntos);
+                        fileOut.println("100,demo");
+                        fileOut.close();
+                        fileIn = new BufferedReader(new FileReader("Guardado"));
                 }
                 String dato = fileIn.readLine();
-				deg = (Double.parseDouble(dato));
-				dato = fileIn.readLine();
-				score = (Integer.parseInt(dato));
-				dato= fileIn.readLine();
-				tiempoActual = (Long.parseLong(dato));
-				dato = fileIn.readLine();
-				brain.setX(Integer.parseInt(dato));
-				dato =fileIn.readLine();
-				brain.setY(Integer.parseInt(dato));
-				dato = fileIn.readLine();
-				zombie.setX(Integer.parseInt(dato));
-				dato = fileIn.readLine();
-				tirando = Boolean.parseBoolean(dato);
-				dato = fileIn.readLine();
-				estado = Integer.parseInt(dato);
-				dato = fileIn.readLine();
-				velX = Double.parseDouble(dato);
-				dato = fileIn.readLine();
-				velY = Double.parseDouble(dato);
+                      deg = (Double.parseDouble(dato));
+                      dato = fileIn.readLine();
+                      score = (Integer.parseInt(dato));
+                      dato= fileIn.readLine();
+                      tiempoActual = (Long.parseLong(dato));
+                      dato = fileIn.readLine();
+                      brain.setX(Integer.parseInt(dato));
+                      dato =fileIn.readLine();
+                      brain.setY(Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      zombie.setX(Integer.parseInt(dato));
+                      dato = fileIn.readLine();
+                      tirando = Boolean.parseBoolean(dato);
+                      dato = fileIn.readLine();
+                      estado = Integer.parseInt(dato);
+                      dato = fileIn.readLine();
+                      velX = Double.parseDouble(dato);
+                      dato = fileIn.readLine();
+                      velY = Double.parseDouble(dato);
 
                 fileIn.close();
 	}
@@ -304,9 +312,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		fileOut.println(String.valueOf(brain.getY()));
 		fileOut.println(String.valueOf(zombie.getX()));
 		fileOut.println(String.valueOf(tirando));
-		fileOut.println(String.valueOf(estado));
-		fileOut.println(String.valueOf(velX));
-		fileOut.println(String.valueOf(velY));
+                fileOut.println(String.valueOf(estado));
+                fileOut.println(String.valueOf(velX));
+                fileOut.println(String.valueOf(velY));
                 
 
 		fileOut.close();
@@ -359,21 +367,21 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			sound = !sound;
 		} else if (e.getKeyCode() == KeyEvent.VK_I) {
 //			Mostrar/Quitar las instrucciones del juego
-			if(estado ==2){
-				estado=0;
-			}else{
-				estado =2;
-			}
+                    if(estado ==2){
+                        estado=0;
+                    }else{
+                        estado =2;
+                    }
 		} else if (e.getKeyCode() == KeyEvent.VK_G) {
 			guardar = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_C) {
 			cargar = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			if(estado==1){
-				estado=0;
-			}else{
-				estado =1;
-			}
+                            estado=0;
+                        }else{
+                            estado =1;
+                        }
 		}
     }
 	
@@ -440,26 +448,34 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		
 		if (brain != null && zombie != null) {
 //			Dibuja la imagen en la posicion actualizada
+<<<<<<< HEAD
 			g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
 			g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
-			if(estado ==0){
-				g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
-				g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
-				g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
-				g.drawString("Lives: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
-			}
-			else if(estado==1){
-				g.drawString("PAUSA", getWidth()/2 - 100, getHeight()/2);
-			}else if(estado ==2){
-				g.setColor(Color.white);
-				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
-				g.setColor(Color.black);
-				g.drawString("INSTRUCCIONES", getWidth()/2 - 210, 200);
-			}
+			g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
+			g.drawString("Lives: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
+=======
+                        if(estado ==0){
+                            g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
+                            g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
+                            g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
+                        }
+                        else if(estado==1){
+                            g.setFont(new Font("arial", Font.BOLD, 60));
+                            g.drawString("PAUSA", getWidth()/2 - 100, getHeight()/2);
+                        }else if(estado ==2){
+                            g.setColor(Color.white);
+                            g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
+                            g.setColor(Color.black);
+                            g.setFont(new Font("arial", Font.BOLD, 50));
+                            g.drawString("INSTRUCCIONES", getWidth()/2 - 210, 200);
+                        }
+>>>>>>> 6b6914acf510852ebba014f371278e0ff9f74fb8
 		} else {
 //			Da un mensaje mientras se carga el dibujo	
 			g.drawString("No se cargo la imagen..", 20, 20);
 		}
+			
+		
 	}
 	
 	/**
