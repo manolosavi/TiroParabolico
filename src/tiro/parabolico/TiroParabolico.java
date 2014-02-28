@@ -36,25 +36,24 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 //	Se declaran las variables.
 	private Image dbImage;		// Imagen a proyectar	
 	private Graphics dbg;		// Objeto grafico
-	private Base brain;
-	private Base zombie;
-	private SoundClip alegria;		// Objeto AudioClip
-	private SoundClip tristeza;		// Objeto AudioClip
+	private Base brain;			// Objeto cerebro
+	private Base zombie;		// Objeto zombie
+	private SoundClip alegria;	// Sonido de alegria
+	private SoundClip tristeza;	// Sonido de tristeza
 	private char dir;			// dir es la direccion que le vas a dar al objeto 
-	private int estado;             //el estado actual del juego 0= corriendo, 1= pausa, 2= informacion
-	private int range;			
-	private int fallCount;
-	private int lives;              //las vidas que tiene el jugador
-	private int score;              // el puntaje del jugador
-	private long tiempoActual;      //el tiempo actual que esta corriendo el jar
+	private int estado;			// el estado actual del juego (0 = corriendo, 1 = pausa, 2 = informacion)
+	private int fallCount;		// numero de veces que ha caido el cerebro al piso
+	private int lives;			// las vidas que tiene el jugador
+	private int score;			// el puntaje del jugador
+	private long tiempoActual;	// el tiempo actual que esta corriendo el jar
 	private long tiempoInicial;
-	private double velX, velY;
-	private double deg;
-	private double gravedad;
-	private boolean guardar; 	// guardar es la propiedad que establece que se va a guardar el juego 
-	private boolean cargar; 	// cargar el juego previamiente establecida
+	private double velX, velY;	// la velocidad en x y y del cerebro
+	private double deg;			// el angulo del cerebro
+	private double dificultad;
+	private boolean guardar;	// guardar es la propiedad que establece que se va a guardar el juego 
+	private boolean cargar;		// cargar el juego previamiente establecida
        
-	private boolean sound;
+	private boolean sound;		// sound es para ver si el sonido esta activado
 	private boolean tirando;	// tirando es para ver si el misil o el objeto se encuentra moviendo 
 	
 	
@@ -74,7 +73,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		lives = 5;
 		fallCount = 0;
 		score = 0;
-		gravedad = 1;
+		dificultad = 1;
 		estado = 0;
 		
 		guardar = false;
@@ -188,7 +187,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		while (true) {
 			actualiza();
 			checaColision();
-			repaint();	// Se actualiza el <code>Applet</code> repintando el contenido.
+//			Se actualiza el <code>Applet</code> repintando el contenido.
+			repaint();
 			try	{
 //				El thread se duerme.
 				Thread.sleep (20);
@@ -238,9 +238,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 					velY = -vel*sin(deg);
 				}
 				brain.actualiza(tiempoTranscurrido);
-				brain.setX((int) (brain.getX()+velX*gravedad));
-				brain.setY((int) (brain.getY()+velY*gravedad));
-				velY += gravedad;
+				brain.setX((int) (brain.getX()+velX*dificultad));
+				brain.setY((int) (brain.getY()+velY*dificultad));
+				velY += dificultad;
 			}
 			
 			if (dir == 'l') {
@@ -270,7 +270,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 					fileOut.close();
 					fileIn = new BufferedReader(new FileReader("Guardado"));
                 }
-                String dato = fileIn.readLine();
+				String dato = fileIn.readLine();
 				deg = (Double.parseDouble(dato));
 				dato = fileIn.readLine();
 				score = (Integer.parseInt(dato));
@@ -291,7 +291,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				dato = fileIn.readLine();
 				velY = Double.parseDouble(dato);
 
-                fileIn.close();
+				fileIn.close();
 	}
 	
 
@@ -307,8 +307,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		fileOut.println(String.valueOf(estado));
 		fileOut.println(String.valueOf(velX));
 		fileOut.println(String.valueOf(velY));
-                
-
+		
 		fileOut.close();
 	}
 	
@@ -326,7 +325,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			if (fallCount == 3) {
 				fallCount = 0;
 				lives--;
-				gravedad += 0.5;
+				dificultad += 0.5;
 			}
 			if (sound) {
 				tristeza.play();
@@ -446,7 +445,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
 				g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
 				g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
-				g.drawString("Lives: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
+				g.drawString("Vidas: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
 			}
 			else if(estado==1){
 				g.drawString("PAUSA", getWidth()/2 - 100, getHeight()/2);
