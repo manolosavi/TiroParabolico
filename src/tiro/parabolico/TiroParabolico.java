@@ -38,8 +38,8 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private Graphics dbg;		// Objeto grafico
 	private Base brain;
 	private Base zombie;
-	private SoundClip boom;		// Objeto AudioClip
-	private SoundClip bomb;		// Objeto AudioClip
+	private SoundClip alegria;		// Objeto AudioClip
+	private SoundClip tristeza;		// Objeto AudioClip
 	private char dir;			// dir es la direccion que le vas a dar al objeto 
 	private boolean pause;		// pause es un booleano para checar si el juego esta en pausa
 	private boolean sound;
@@ -52,6 +52,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private long tiempoInicial;
 	private double velX, velY;
 	private double deg;
+	private double gravedad;
 	private boolean guardar; 	// guardar es la propiedad que establece que se va a guardar el juego 
 	private boolean cargar; 	// cargar el juego previamiente establecida
 	
@@ -69,8 +70,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	public void init() {
 		setSize(1200,700);
 		
+		lives = 5;
 		fallCount = 0;
 		score = 0;
+		gravedad = 1;
 		
 		guardar = false;
 		cargar = false;
@@ -78,10 +81,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		sound = false;
 		tirando = false;
 		
-		boom = new SoundClip("resources/boom.wav");	// Sonido cuando chocas con un malo
-		boom.setLooping(false);
-		bomb = new SoundClip("resources/bomb.wav");	// Sonido cuando chocas con la pared
-		bomb.setLooping(false);
+		alegria = new SoundClip("resources/alegria.wav");	// Sonido cuando chocas con un malo
+		alegria.setLooping(false);
+		tristeza = new SoundClip("resources/tristeza.wav");	// Sonido cuando chocas con la pared
+		tristeza.setLooping(false);
 		
 		
 //		Se cargan las imágenes para la animación
@@ -234,8 +237,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 					velY = -vel*sin(deg);
 				}
 				brain.actualiza(tiempoTranscurrido);
-				brain.setX((int) (brain.getX()+velX));
-				brain.setY((int) (brain.getY()+velY++));
+				brain.setX((int) (brain.getX()+velX*gravedad));
+				brain.setY((int) (brain.getY()+velY*gravedad));
+				velY += gravedad;
 			}
 			
 			if (dir == 'l') {
@@ -311,9 +315,10 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			if (fallCount == 3) {
 				fallCount = 0;
 				lives--;
+				gravedad += 0.5;
 			}
 			if (sound) {
-				bomb.play();
+				tristeza.play();
 			}		
 		}
 
@@ -322,9 +327,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			tirando = false;
 			brain.setX(0);
 			brain.setY(getHeight()-brain.getHeight());
-			score+=2;
+			score += 2;
 			if (sound) {
-				boom.play();
+				alegria.play();
 			}
 		}
 	}
@@ -418,6 +423,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
 			g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
 			g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
+			g.drawString("Lives: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
 		} else {
 //			Da un mensaje mientras se carga el dibujo	
 			g.drawString("No se cargo la imagen..", 20, 20);
