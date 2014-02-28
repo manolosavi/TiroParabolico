@@ -41,7 +41,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	private SoundClip alegria;	// Sonido de alegria
 	private SoundClip tristeza;	// Sonido de tristeza
 	private char dir;			// dir es la direccion que le vas a dar al objeto 
-	private int estado;			// el estado actual del juego (0 = corriendo, 1 = pausa, 2 = informacion)
+	private int estado;			// el estado actual del juego (0 = corriendo, 1 = pausa, 2 = informacion,3= creditos)
 	private int fallCount;		// numero de veces que ha caido el cerebro al piso
 	private int lives;			// las vidas que tiene el jugador
 	private int score;			// el puntaje del jugador
@@ -67,6 +67,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
      * a usarse en el <code>Applet</code> y se definen funcionalidades.
      */
 	public void init() {
+		//Inicializacion de variables
 		setSize(1200,700);
 		
 		lives = 5;
@@ -199,7 +200,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	}
 	
 	/**
-	 * Metodo usado para actualizar la posicion de objetos earth y asteroid.
+	 * Metodo usado para actualizar la posicion de objetos zombie y cerebro.
 	 * 
 	 */
 	public void actualiza() {
@@ -262,6 +263,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	}
 	
 	public void leeArchivo() throws IOException{
+		//Lectura del archivo el cual tiene las variables del juego guardado
 		BufferedReader fileIn;
 		try {
 			fileIn = new BufferedReader(new FileReader("Guardado"));
@@ -298,6 +300,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	
 
 	public void grabaArchivo() throws IOException{
+		//Grabar las variables necesarias para reiniciar el juego de donde se quedo el usuario en un txt llamado Guardado
 		PrintWriter fileOut= new PrintWriter(new FileWriter("Guardado"));
 		fileOut.println(String.valueOf(deg));
 		fileOut.println(String.valueOf(score));
@@ -357,7 +360,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			dir = 'l';
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {	//Presiono flecha derecha/d
 			dir = 'r';
-		} else if (e.getKeyCode() == KeyEvent.VK_S) {
+		} else if (e.getKeyCode() == KeyEvent.VK_S) {		//Presiono tecla s / para quitar sonido
 			sound = !sound;
 		} else if (e.getKeyCode() == KeyEvent.VK_I) {
 //			Mostrar/Quitar las instrucciones del juego
@@ -366,11 +369,11 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			}else{
 				estado =2;
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_G) {
+		} else if (e.getKeyCode() == KeyEvent.VK_G) {	//Presiono tecla G para guardar el juego
 			guardar = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_C) {
-			cargar = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_P) {
+		} else if (e.getKeyCode() == KeyEvent.VK_C) {	//Presiono tecla C para cargar el juego
+			cargar = true;	
+		} else if (e.getKeyCode() == KeyEvent.VK_P) {	//Presiono tecla P para parar el juego en ejecuccion
 			if(estado==1){
 				estado=0;
 			}else{
@@ -378,9 +381,15 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			}
 		}
     }
-	
+
+    /**
+	 * Metodo <I>keyReleased</I> sobrescrito de la interface <code>KeyListener</code>.<P>
+	 * En este metodo maneja el evento que detiene el movimiento del zombie.
+	 * @param e es el <code>evento</code> que se genera al dejar de presionar la tecla izquierda o derecha.
+	 */
         @Override
 	public void keyReleased(KeyEvent e){
+		//Si se deja de presionar la tecla izquierda el zombie se dejara de mover, lo mismo sucede con la tecla derecha
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			dir = '.';
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -453,14 +462,17 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
 			g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
 			if(estado == 0){
+//			Dibuja el estado corriendo del juego
 				g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
 				g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
 				g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
 				g.drawString("Vidas: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
 			}
 			else if(estado == 1){
+//				Dibuja el estado de pausa en el jframe
 				g.drawString("PAUSA", getWidth()/2 - 100, getHeight()/2);
 			}else if(estado == 2){
+//				Dibuja el estado de informacion para el usuario en el jframe
 				g.setColor(new Color(78, 88, 93));
 				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
 				g.setColor(Color.white);
@@ -471,6 +483,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				g.drawString("Se el mejor zombie y come muchos cerebros!", getWidth()/2 - 210, 340);
 			}
 			else if(estado == 3){
+//				Dibuja el estado de creditos en el jframe
 				g.setColor(new Color(78, 88, 93));
 				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
 				g.setColor(Color.white);
