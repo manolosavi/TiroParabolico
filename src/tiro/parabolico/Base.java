@@ -33,8 +33,8 @@ public class Base {
 	}
 	
 	/**
-		Actualiza la imagen (cuadro) actual de la animación,
-		si es necesario.
+	 *	Actualiza la imagen (cuadro) actual de la animación,
+	 *	si es necesario.
 	 * @param t tiempo transcurrido
 	*/
 	public synchronized void actualiza(long t) {
@@ -116,7 +116,6 @@ public class Base {
 	
 	/**
 	 * Checa si el objeto <code>Base</code> intersecta a otro <code>Base</code>
-	 *
 	 * @param obj objecto con el que se checa si se intersecta
 	 * @return un valor boleano <code>true</code> si lo intersecta <code>false</code>
 	 * en caso contrario
@@ -127,7 +126,6 @@ public class Base {
 	
 	/**
 	 * Checa si el click es dentro del rectangulo del <code>Animal</code>
-	 *
 	 * @param x posicion x del click
 	 * @param y posicion y del click
 	 * @return un valor boleano <code>true</code> si esta dentro, <code>false</code>

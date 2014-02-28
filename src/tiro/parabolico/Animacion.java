@@ -43,7 +43,7 @@ public class Animacion{
 		cuadros.add(new cuadroDeAnimacion(imagen, duracionTotal));
 	}
 	
-//	Inicializa la animación desde el principio. 
+//	Inicializa la animación desde el principio.
 	public synchronized void iniciar(){
 		tiempoDeAnimacion = 0;
 		indiceCuadroActual = 0;

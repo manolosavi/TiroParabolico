@@ -59,7 +59,7 @@ public class SoundClip {
 
 	/** 
 	 * Metodo modificador usado para modificar si el sonido se repite.
-	 * @param _looping es un valor <code>boleano</code>. 
+	 * @param looping es un valor <code>boleano</code>. 
 	 */
 	public void setLooping(boolean looping) {
 		this.looping = looping; 
@@ -75,7 +75,7 @@ public class SoundClip {
 
 	/** 
 	 * Metodo modificador usado para definir el numero de repeticiones.
-	 * @param _repeat es un <code>entero</code> que es el numero de repeticiones. 
+	 * @param repeat es un <code>entero</code> que es el numero de repeticiones. 
 	 */
 	public void setRepeat(int repeat) {
 		this.repeat = repeat;
@@ -91,7 +91,7 @@ public class SoundClip {
 
 	/**
 	 * Metodo modificador que asigna un nombre al archivo.
-	 * @param _filename es un <code>String</code> con el nombre del archivo. 
+	 * @param filename es un <code>String</code> con el nombre del archivo. 
 	 */
 	public void setFilename(String filename) { 
 		this.filename = filename; 
@@ -116,6 +116,7 @@ public class SoundClip {
 	/** 
 	 * Metodo de acceso que regresa el url del archivo
 	 * @param filename es un <code>String</code> con el nombre del archivo. 
+	 * @return url es un <code>URL</code> con el archivo.
 	 */
 	private URL getURL(String filename) {
 		URL url = null;
@@ -131,6 +132,7 @@ public class SoundClip {
 	/** 
 	 * Metodo que carga el archivo de sonido.
 	 * @param audiofile es un <code>String</code> con el nombre del archivo de sonido.
+	 * @return un <code>booleano</code> que dice si fue o no cargado el archivo.
 	 */
 	public boolean load(String audiofile) {
 		try {

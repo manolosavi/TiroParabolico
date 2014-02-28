@@ -11,7 +11,7 @@ package tiro.parabolico;
  */
 
 public class SaveGame {
-	private int lives, score, ballX, ballY, basketX;
+	private int lives, score, brainX, brainY, zombieX;
 
 	/**
 	 * Constructor vacio con darle valores iniciales al momento de
@@ -20,25 +20,25 @@ public class SaveGame {
 	public SaveGame() {
 		lives = 0;
 		score = 0;
-		ballX = 0;
-		ballY = 0;
-		basketX = 0;
+		brainX = 0;
+		brainY = 0;
+		zombieX = 0;
 	}
 
 	/**
 	 * Metodo constructor usado para crear el objeto
 	 * @param l es las <code>vidas</code>.
 	 * @param s es el <code>score</code>.
-	 * @param bx es la <code>posicion</code> x de la pelota.
-	 * @param by es la <code>posicion</code> y de la pelota.
-	 * @param bkx es la <code>posicion x</code> de la canasta.
+	 * @param bx es la <code>posicion</code> x del cerebro.
+	 * @param by es la <code>posicion</code> y del cerebro.
+	 * @param zx es la <code>posicion x</code> del zombie.
 	 */
-	public SaveGame(int l, int s, int bx, int by, int bkx) {
+	public SaveGame(int l, int s, int bx, int by, int zx) {
 		lives = l;
 		score = s;
-		ballX = bx;
-		ballY = by;
-		basketX = bkx;
+		brainX = bx;
+		brainY = by;
+		zombieX = zx;
 	}
 
 	/**
@@ -47,6 +47,6 @@ public class SaveGame {
 	 */
 	@Override
 	public String toString(){
-		return "" + lives + ", " + score + ", " + ballX + ", " + ballY + ", " + basketX;
+		return "" + lives + ", " + score + ", " + brainX + ", " + brainY + ", " + zombieX;
 	}
 }
