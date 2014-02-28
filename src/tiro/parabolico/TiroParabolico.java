@@ -70,7 +70,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	public void init() {
 		setSize(1200,700);
 		
-		lives = 5;
+		lives = 2;
 		fallCount = 0;
 		score = 0;
 		dificultad = 1;
@@ -257,6 +257,9 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				}
 			}
 		}
+                if(lives == 0){
+                    estado = 3;
+                }
 	}
 	
 	public void leeArchivo() throws IOException{
@@ -349,6 +352,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * En este metodo maneja el evento que se genera al presionar cualquier la tecla.
 	 * @param e es el <code>evento</code> generado al presionar las teclas.
 	 */
+        @Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {			//Presiono flecha izquierda/a
 			dir = 'l';
@@ -376,6 +380,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		}
     }
 	
+        @Override
 	public void keyReleased(KeyEvent e){
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			dir = '.';
@@ -383,6 +388,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			dir = '.';
 		}
 	}
+        @Override
 	public void keyTyped(KeyEvent e){}
 	
 	/**
@@ -390,6 +396,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * En este metodo maneja el evento que se genera al empezar un click.
 	 * @param e es el <code>evento</code> que se genera al empezar un click.
 	 */
+        @Override
 	public void mousePressed(MouseEvent e) {
 //		Para a brain si se le da click/vuelve a moverse
 		if (brain.didClickInside(e.getX(), e.getY())) {
@@ -398,9 +405,13 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 			}
 		}
 	}
+        @Override
 	public void mouseClicked(MouseEvent e) {}
+        @Override
 	public void mouseReleased(MouseEvent e){}
+        @Override
 	public void mouseEntered(MouseEvent e) {}
+        @Override
 	public void mouseExited(MouseEvent e) {}
 	
 	/**
@@ -409,6 +420,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 	 * En este metodo lo que hace es actualizar el contenedor
 	 * @param g es el <code>objeto grafico</code> usado para dibujar.
 	 */
+        @Override
 	public void paint(Graphics g) {
 //		Inicializan el DoubleBuffer
 		dbImage = createImage (this.getSize().width, this.getSize().height);
@@ -454,7 +466,21 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
 				g.setColor(Color.black);
 				g.drawString("INSTRUCCIONES", getWidth()/2 - 210, 200);
+				g.drawString("para jugar debes presionar con el", getWidth()/2 - 210, 250);
+				g.drawString("mouse en el cerebro de la izquierda", getWidth()/2 - 210, 300);
+				g.drawString("con las teclas < y > mueves el zombie", getWidth()/2 - 210,350);
+				g.drawString("se el mejor zombie y come muchos cerebros", getWidth()/2 - 210, 400);
 			}
+			else if(estado== 3){
+                                g.setColor(Color.white);
+                                g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
+				g.setColor(Color.black);
+				g.drawString("CREDITOS", getWidth()/2 - 210, 200);
+				g.drawString("Manuel Sanudo", getWidth()/2 - 210, 250);
+				g.drawString("Alejandro Sanchez", getWidth()/2 - 210, 300);
+				g.drawString("Andres Rodriguez", getWidth()/2 - 210, 350);
+			}
+
 		} else {
 //			Da un mensaje mientras se carga el dibujo	
 			g.drawString("No se cargo la imagen..", 20, 20);
