@@ -34,7 +34,8 @@ import static java.lang.Math.sqrt;
 public class TiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 //	Se declaran las variables.
-	private Image dbImage;		// Imagen a proyectar	
+	private Image dbImage;		// Imagen a proyectar
+	private Image background;	// Imagen de fondo
 	private Graphics dbg;		// Objeto grafico
 	private Base brain;			// Objeto cerebro
 	private Base zombie;		// Objeto zombie
@@ -86,39 +87,24 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		tristeza = new SoundClip("resources/tristeza.wav");	// Sonido cuando chocas con la pared
 		tristeza.setLooping(false);
 		
+		background = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/background.jpg"));
 		
 //		Se cargan las imágenes para la animación
-		Image ball1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball1.png"));
-		Image ball2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball2.png"));
-		Image ball3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball3.png"));
-		Image ball4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball4.png"));
-		Image ball5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball5.png"));
-		Image ball6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball6.png"));
-		Image ball7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball7.png"));
-		Image ball8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball8.png"));
-		Image ball9 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball9.png"));
-		Image ball10 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball10.png"));
-		Image ball11 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball11.png"));
-		Image ball12 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball12.png"));
-		Image ball13 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball13.png"));
-		Image ball14 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball14.png"));
-		Image ball15 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball15.png"));
-		Image ball16 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball16.png"));
-		Image ball17 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball17.png"));
-		Image ball18 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball18.png"));
-		Image ball19 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball19.png"));
-		Image ball20 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball20.png"));
-		Image ball21 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball21.png"));
-		Image ball22 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball22.png"));
-		Image ball23 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball23.png"));
-		Image ball24 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/ball24.png"));
+		Image ball1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain1.png"));
+		Image ball2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain2.png"));
+		Image ball3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain3.png"));
+		Image ball4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain4.png"));
+		Image ball5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain5.png"));
+		Image ball6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain6.png"));
+		Image ball7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain7.png"));
+		Image ball8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain8.png"));
 		Image basket1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket1.png"));
 		Image basket2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket2.png"));
 		Image basket3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket3.png"));
 		Image basket4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket4.png"));
 //		Se crea la animación
 		Animacion anim1 = new Animacion(), anim2 = new Animacion();
-		int brainFrameTime = 100, zombieFrameTime = 1000;
+		int brainFrameTime = 80, zombieFrameTime = 1000;
 		anim1.sumaCuadro(ball1, brainFrameTime);
 		anim1.sumaCuadro(ball2, brainFrameTime);
 		anim1.sumaCuadro(ball3, brainFrameTime);
@@ -127,22 +113,6 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		anim1.sumaCuadro(ball6, brainFrameTime);
 		anim1.sumaCuadro(ball7, brainFrameTime);
 		anim1.sumaCuadro(ball8, brainFrameTime);
-		anim1.sumaCuadro(ball9, brainFrameTime);
-		anim1.sumaCuadro(ball10, brainFrameTime);
-		anim1.sumaCuadro(ball11, brainFrameTime);
-		anim1.sumaCuadro(ball12, brainFrameTime);
-		anim1.sumaCuadro(ball13, brainFrameTime);
-		anim1.sumaCuadro(ball14, brainFrameTime);
-		anim1.sumaCuadro(ball15, brainFrameTime);
-		anim1.sumaCuadro(ball16, brainFrameTime);
-		anim1.sumaCuadro(ball17, brainFrameTime);
-		anim1.sumaCuadro(ball18, brainFrameTime);
-		anim1.sumaCuadro(ball19, brainFrameTime);
-		anim1.sumaCuadro(ball20, brainFrameTime);
-		anim1.sumaCuadro(ball21, brainFrameTime);
-		anim1.sumaCuadro(ball22, brainFrameTime);
-		anim1.sumaCuadro(ball23, brainFrameTime);
-		anim1.sumaCuadro(ball24, brainFrameTime);
 		anim2.sumaCuadro(basket1, zombieFrameTime);
 		anim2.sumaCuadro(basket2, zombieFrameTime);
 		anim2.sumaCuadro(basket3, zombieFrameTime);
@@ -154,7 +124,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		zombie = new Base(0,636,anim2);
 		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2 - zombie.getWidth())));
 //		zombie.setY(getHeight() - 2*zombie.getHeight());
-		
+		setResizable(false);
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
 		addMouseListener(this);
@@ -462,38 +432,40 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		
 		if (brain != null && zombie != null) {
 //			Dibuja la imagen en la posicion actualizada
-			g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
-			g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
+			g.drawImage(background, 0, 0, this);
 			if(estado == 0){
 //			Dibuja el estado corriendo del juego
-				g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
-				g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
+				if (tirando) {
+					g.drawImage(brain.getImage(), brain.getX(),brain.getY(), this);
+				} else {
+					g.drawImage(brain.getImage0(), brain.getX(),brain.getY(), this);
+				}
+				if (dir != '.') {
+					g.drawImage(zombie.getImage(), zombie.getX(),zombie.getY(), this);
+				} else {
+					g.drawImage(zombie.getImage0(), zombie.getX(),zombie.getY(), this);
+				}
 				g.drawString("Score: " + String.valueOf(score), 10, 50);	// draw score at (10,25)
 				g.drawString("Vidas: " + String.valueOf(lives), 10, 75);	// draw score at (10,25)
-			}
-			else if(estado == 1){
+			} else if(estado == 1){
 //				Dibuja el estado de pausa en el jframe
 				g.drawString("PAUSA", getWidth()/2 - 100, getHeight()/2);
-			}else if(estado == 2){
+			} else if(estado == 2){
 //				Dibuja el estado de informacion para el usuario en el jframe
-				g.setColor(new Color(78, 88, 93));
-				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
-				g.setColor(Color.white);
 				g.drawString("INSTRUCCIONES", getWidth()/2 - 210, 200);
 				g.drawString("Para jugar debes presionar con el", getWidth()/2 - 210, 250);
-				g.drawString("mouse en el cerebro de la izquierda", getWidth()/2 - 210, 280);
-				g.drawString("con las teclas ← y → mueves el zombie.", getWidth()/2 - 210,310);
+				g.drawString("mouse en el cerebro de la izquierda con", getWidth()/2 - 210, 280);
+				g.drawString("las teclas ← y → mueves el zombie.", getWidth()/2 - 210,310);
 				g.drawString("Se el mejor zombie y come muchos cerebros!", getWidth()/2 - 210, 340);
-			}
-			else if(estado == 3){
+			} else if(estado == 3){
 //				Dibuja el estado de creditos en el jframe
 				g.setColor(new Color(78, 88, 93));
 				g.fillRect(100, 100, getWidth() - 200, getHeight() - 200);
 				g.setColor(Color.white);
 				g.drawString("CREDITOS", getWidth()/2 - 210, 200);
-				g.drawString("Andres Rodriguez", getWidth()/2 - 210, 250);
-				g.drawString("Alejandro Sanchez", getWidth()/2 - 210, 300);
-				g.drawString("Manuel Sanudo", getWidth()/2 - 210, 350);
+				g.drawString("Andres Rodriguez    A00812121", getWidth()/2 - 210, 250);
+				g.drawString("Alejandro Sanchez   A01191434", getWidth()/2 - 210, 300);
+				g.drawString("Manuel Sañudo       A01192241", getWidth()/2 - 210, 350);
 			}
 
 		} else {

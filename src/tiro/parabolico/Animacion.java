@@ -72,7 +72,7 @@ public class Animacion{
 		Captura la imagen actual de la animación. Regeresa null
 		si la animación no tiene imágenes.
 	*/
-	public synchronized Image getImagen(){
+	public synchronized Image getImagen() {
 		if (cuadros.size() == 0){
 			return null;
 		}
@@ -81,11 +81,19 @@ public class Animacion{
 		}
 	}
 	
+	/**
+		Captura la imagen actual de la animación. Regeresa null
+		si la animación no tiene imágenes.
+	*/
+	public synchronized Image getImagen0() {
+		return getCuadro(0).imagen;
+	}
+	
 	private cuadroDeAnimacion getCuadro(int i){
 		return (cuadroDeAnimacion)cuadros.get(i);
 	}
 	
-	public class cuadroDeAnimacion{
+	public class cuadroDeAnimacion {
 		
 		Image imagen;
 		long tiempoFinal;

@@ -50,6 +50,14 @@ public class Base {
 	}
 	
 	/**
+	 * Metodo de acceso que regresa la imagen del objeto 
+	 * @return anim.getImagen() es la <code>imagen</code> del objeto.
+	 */
+	public Image getImage0() {
+		return anim.getImagen0();
+	}
+	
+	/**
 	 * Metodo modificador usado para cambiar la posicion en x del objeto 
 	 * @param x es la <code>posicion en x</code> del objeto.
 	 */
