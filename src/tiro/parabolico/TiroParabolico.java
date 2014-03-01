@@ -90,40 +90,41 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		background = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/background.jpg"));
 		
 //		Se cargan las imágenes para la animación
-		Image ball1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain1.png"));
-		Image ball2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain2.png"));
-		Image ball3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain3.png"));
-		Image ball4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain4.png"));
-		Image ball5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain5.png"));
-		Image ball6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain6.png"));
-		Image ball7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain7.png"));
-		Image ball8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain8.png"));
-		Image basket1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket1.png"));
-		Image basket2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket2.png"));
-		Image basket3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket3.png"));
-		Image basket4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/basket4.png"));
+		Image brain1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain1.png"));
+		Image brain2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain2.png"));
+		Image brain3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain3.png"));
+		Image brain4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain4.png"));
+		Image brain5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain5.png"));
+		Image brain6 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain6.png"));
+		Image brain7 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain7.png"));
+		Image brain8 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/brain8.png"));
+		Image zombie1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieHappy1.png"));
+		Image zombie2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieHappy2.png"));
+		Image zombie3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieHappy3.png"));
+		Image zombie4 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieSad1.png"));
+		Image zombie5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieSad2.png"));
 //		Se crea la animación
 		Animacion anim1 = new Animacion(), anim2 = new Animacion();
-		int brainFrameTime = 80, zombieFrameTime = 1000;
-		anim1.sumaCuadro(ball1, brainFrameTime);
-		anim1.sumaCuadro(ball2, brainFrameTime);
-		anim1.sumaCuadro(ball3, brainFrameTime);
-		anim1.sumaCuadro(ball4, brainFrameTime);
-		anim1.sumaCuadro(ball5, brainFrameTime);
-		anim1.sumaCuadro(ball6, brainFrameTime);
-		anim1.sumaCuadro(ball7, brainFrameTime);
-		anim1.sumaCuadro(ball8, brainFrameTime);
-		anim2.sumaCuadro(basket1, zombieFrameTime);
-		anim2.sumaCuadro(basket2, zombieFrameTime);
-		anim2.sumaCuadro(basket3, zombieFrameTime);
-		anim2.sumaCuadro(basket4, zombieFrameTime);
+		int brainFrameTime = 80, zombieFrameTime = 200;
+		anim1.sumaCuadro(brain1, brainFrameTime);
+		anim1.sumaCuadro(brain2, brainFrameTime);
+		anim1.sumaCuadro(brain3, brainFrameTime);
+		anim1.sumaCuadro(brain4, brainFrameTime);
+		anim1.sumaCuadro(brain5, brainFrameTime);
+		anim1.sumaCuadro(brain6, brainFrameTime);
+		anim1.sumaCuadro(brain7, brainFrameTime);
+		anim1.sumaCuadro(brain8, brainFrameTime);
+		anim2.sumaCuadro(zombie1, zombieFrameTime);
+		anim2.sumaCuadro(zombie2, zombieFrameTime);
+		anim2.sumaCuadro(zombie3, zombieFrameTime);
+		anim2.sumaCuadro(zombie4, zombieFrameTime);
+		anim2.sumaCuadro(zombie5, zombieFrameTime);
 //		Se agrega la animacion a los objetos
 		brain = new Base(0,0,anim1);
 		brain.setY(getHeight()-brain.getHeight());
 		
-		zombie = new Base(0,636,anim2);
+		zombie = new Base(0,552,anim2);
 		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2 - zombie.getWidth())));
-//		zombie.setY(getHeight() - 2*zombie.getHeight());
 		setResizable(false);
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
