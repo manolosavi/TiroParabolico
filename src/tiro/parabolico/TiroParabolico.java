@@ -105,7 +105,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		Image zombie5 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/zombieSad2.png"));
 //		Se crea la animación
 		Animacion anim1 = new Animacion(), anim2 = new Animacion();
-		int brainFrameTime = 80, zombieFrameTime = 200;
+		int brainFrameTime = 80, zombieFrameTime = 150;
 		anim1.sumaCuadro(brain1, brainFrameTime);
 		anim1.sumaCuadro(brain2, brainFrameTime);
 		anim1.sumaCuadro(brain3, brainFrameTime);
@@ -124,7 +124,7 @@ public class TiroParabolico extends JFrame implements Runnable, KeyListener, Mou
 		brain.setY(getHeight()-brain.getHeight());
 		
 		zombie = new Base(0,552,anim2);
-		zombie.setX((int) ((Math.random()*getWidth()/2 + getWidth()/2 - zombie.getWidth())));
+		zombie.setX((int) ((Math.random()*600 + 408)));
 		setResizable(false);
 		setBackground(new Color(43, 48, 51));
 		addKeyListener(this);
